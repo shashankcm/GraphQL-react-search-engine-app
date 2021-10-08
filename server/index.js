@@ -1,49 +1,27 @@
-const { ApolloServer, gql } = require("apollo-server");
-
-// A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
-const typeDefs = gql`
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type MainCard {
-    title: String!
-    image: String!
-  }
-
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
-  type Query {
-    mainCards: [MainCard]
-  }
-`;
-
-const mainCards = [
-  {
-    title: "Recently Viewd",
-    image: "lion",
-  },
-  {
-    title: "Looking for a Gift?",
-    image: "penguin",
-  },
-  {
-    title: "Best Behaved",
-    image: "cat",
-  },
-];
+const { ApolloServer } = require("apollo-server");
+const typeDefs = require("./schema");
+const Animal = require("./resolvers/Animal");
+const Category = require("./resolvers/Category");
+const Query = require("./resolvers/Query");
+const { mainCards, animals, categories } = require("./db");
 
 // Resolvers define the technique for fetching the types defined in the
-// schema. This resolver retrieves books from the "books" array above.
-const resolvers = {
-  Query: {
-    mainCards: () => mainCards,
-  },
-};
-
+// schema. This resolver retrieves books from the "books" array above.xx
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers: {
+    Animal,
+    Category,
+    Query,
+  },
+  context: {
+    mainCards,
+    animals,
+    categories,
+  },
+});
 
 // The `listen` method launches a web server.
 server.listen().then(({ url }) => {
