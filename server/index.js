@@ -3,6 +3,7 @@ const typeDefs = require("./schema");
 const Animal = require("./resolvers/Animal");
 const Category = require("./resolvers/Category");
 const Query = require("./resolvers/Query");
+const Mutation = require("./resolvers/Mutation");
 const { mainCards, animals, categories } = require("./db");
 
 // Resolvers define the technique for fetching the types defined in the
@@ -15,6 +16,7 @@ const server = new ApolloServer({
     Animal,
     Category,
     Query,
+    Mutation,
   },
   context: {
     mainCards,
