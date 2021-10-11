@@ -53,6 +53,7 @@ const typeDefs = gql`
       onScale: Boolean
       category: String!
     ): Animal
+    removeAnimal(id: ID!): Boolean!
   }
 `;
 

@@ -30,6 +30,16 @@ const Mutation = {
     animals.push(newAnimal);
     return newAnimal;
   },
+
+  removeAnimal: (parent, { id }, { animals }) => {
+    let index = animals.findIndex((animal) => animal.id === id);
+    if (index !== -1) {
+      animals.splice(index, 1);
+      return true;
+    } else {
+      return false;
+    }
+  },
 };
 
 module.exports = Mutation;
